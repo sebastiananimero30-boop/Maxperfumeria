@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maxperfumeria</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- ========== HEADER ========== -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">Max <span>perfumeria</a>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="categorias.html" target="_blank">Productos</a></li>
+                    <li><a href="#ofertas">Ofertas</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                <div class="user-icon" onclick="toggleLogin()" id="userIcon" title="Mi cuenta">
+                    👤
+                    <span class="user-name" id="userNameHeader" style="display: none;"></span>
+                </div>
+                
+                <div class="cart-icon" onclick="toggleCart()" title="Carrito">
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                
+                <div class="menu-toggle" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero" id="inicio" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url('https://noirperfumeria.co/cdn/shop/files/Banner_envio_gratis_copia_feaf69bb-ed73-4ac6-ae28-cbf3cf36f485.webp?v=1727298519&width=3840') center/cover;">
+        <div class="hero-content">
+            <h1>FRAGANCIAS EXCLUSIVAS</h1>
+            <p>Descubre la elegancia en cada gota</p>
+            <button class="btn-primary" onclick="scrollToProducts()">Explorar Colección</button>
+        </div>
+    </section>
+
+    <!-- ========== PRODUCTOS DESTACADOS ========== -->
+    <section class="featured">
+        <h2 class="section-title">Perfumes Destacados</h2>
+        <p class="section-subtitle">Las fragancias más exclusivas de nuestra colección</p>
+        <div class="featured-grid" id="featuredProducts"></div>
+    </section>
+
+    <!-- ========== CATÁLOGO DE PRODUCTOS ========== -->
+    <section class="products" id="productos">
+        <h2 class="section-title">Nuestra Colección</h2>
+        <p class="section-subtitle">Encuentra tu fragancia perfecta</p>
+        <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <!-- ========== SECCIÓN DE CATEGORÍAS Y PRODUCTOS ========== -->
+    <section class="categories-products" id="categorias">
+        <h2 class="section-title">Categorías de Perfumes</h2>
+        <p class="section-subtitle">Explora nuestra colección por categorías</p>
+
+        <!-- Menú de Categorías -->
+        <nav class="categories-menu">
+            <ul>
+                <li><a href="#" onclick="filterProducts('todos')">Todos</a></li>
+                <li><a href="#" onclick="filterProducts('floral')">Floral</a></li>
+                <li><a href="#" onclick="filterProducts('amaderado')">Amaderado</a></li>
+                <li><a href="#" onclick="filterProducts('cítrico')">Cítrico</a></li>
+                <li><a href="#" onclick="filterProducts('oriental')">Oriental</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contenedor de Productos -->
+        <div class="products-grid" id="categoryProducts">
+            <!-- Los productos se agregarán dinámicamente -->
+        </div>
+    </section>
+
+    <script>
+        // Función para filtrar productos por categoría
+        function filterProducts(category) {
+            const allProducts = [
+                { id: 1, name: "Noir Étoile", category: "oriental", brand: "CHANEL", price: 450000, image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500&q=80" },
+                { id: 2, name: "Lumière Divine", category: "floral", brand: "DIOR", price: 520000, image: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=500&q=80" },
+                { id: 3, name: "Velvet Rose", category: "floral", brand: "TOM FORD", price: 680000, image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80" },
+                { id: 4, name: "Amber Mystique", category: "amaderado", brand: "VERSACE", price: 380000, image: "https://images.unsplash.com/photo-1587017539504-67cfbddac569?w=500&q=80" },
+                { id: 5, name: "Ocean Breeze", category: "cítrico", brand: "GIORGIO ARMANI", price: 420000, image: "https://images.unsplash.com/photo-1595425970377-c9703cf48b6f?w=500&q=80" }
+            ];
+
+            const filteredProducts = category === 'todos' ? allProducts : allProducts.filter(product => product.category === category);
+
+            const productsGrid = document.getElementById('categoryProducts');
+            productsGrid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-brand">${product.brand}</div>
+                        <h3 class="product-name">${product.name}</h3>
+                        <div class="product-price">${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(product.price)}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Inicializar con todos los productos
+        window.addEventListener('DOMContentLoaded', () => {
+            filterProducts('todos');
+        });
+    </script>
+
+    <!-- ========== OFERTAS ========== -->
+    <section class="offers" id="ofertas">
+        <div class="offers-content">
+            <h2>Ofertas Exclusivas</h2>
+            <div class="discount-badge">-30% OFF</div>
+            <p>En perfumes seleccionados de marcas premium</p>
+            <button class="btn-primary" onclick="scrollToProducts()">Ver Ofertas</button>
+        </div>
+    </section>
+
+    <!-- ========== NOSOTROS ========== -->
+    <section class="about" id="nosotros">
+        <div class="about-content">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5624zc-g9hmpbkLuqoT7W0F5wRCSUo5c_lg&s" alt="Sobre Nosotros" class="about-image">
+            <div class="about-text">
+                <h2>Sobre Maxperfumeria</h2>
+                <p>Somos una perfumería de lujo especializada en fragancias exclusivas y de alta calidad. Contamos con experiencia, nos dedicamos a ofrecer a nuestros clientes las mejores marcas de perfumes del mundo.</p>
+                <p>Nuestra pasión es ayudarte a encontrar la fragancia perfecta que refleje tu personalidad y estilo único. Cada perfume en nuestra colección ha sido cuidadosamente seleccionado por nuestros expertos.</p>
+                <p>Comprometidos con la excelencia, garantizamos productos 100% originales y un servicio al cliente excepcional.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACTO ========== -->
+    <section class="contact" id="contacto">
+        <h2 class="section-title">Contáctanos</h2>
+        <p class="section-subtitle">¿Tienes alguna pregunta? Estamos aquí para ayudarte</p>
+        
+        <form class="contact-form" id="contactForm" onsubmit="handleContactForm(event)">
+            <div class="form-group">
+                <label for="name">Nombre Completo</label>
+                <input type="text" id="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Mensaje</label>
+                <textarea id="message" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn-primary">Enviar Mensaje</button>
+        </form>
+    </section>
+
+    <!-- ========== SECCIÓN ADMINISTRADOR ========== -->
+    <div class="user-profile-container" id="adminSection" style="display: none;">
+        <h2 class="section-title">Panel de Administrador</h2>
+        <p class="section-subtitle">Inicia sesión para cargar nuevos productos o documentos</p>
+
+        <!-- Formulario de Login para Administrador -->
+        <div class="admin-login" id="adminLogin">
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminEmail">Correo Electrónico</label>
+                    <input type="email" id="adminEmail" required placeholder="admin@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Contraseña</label>
+                    <input type="password" id="adminPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-primary">Iniciar Sesión</button>
+            </form>
+        </div>
+
+        <!-- Formulario para Cargar Productos y Documentos (visible tras login) -->
+        <div class="admin-upload" id="adminUpload" style="display: none;">
+            <h3>Cargar Nuevo Producto o Documento</h3>
+            <form id="productUploadForm">
+                <div class="form-group">
+                    <label for="productName">Nombre del Producto</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="productBrand">Marca</label>
+                    <input type="text" id="productBrand" required>
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">Precio</label>
+                    <input type="number" id="productPrice" required>
+                </div>
+                <div class="form-group">
+                    <label for="documentUpload">Subir Documento</label>
+                    <input type="file" id="documentUpload" accept=".pdf,.doc,.docx,.txt">
+                </div>
+                <button type="submit" class="btn-primary">Cargar Producto o Documento</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Manejo de Login del Administrador
+        document.getElementById('adminLoginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+
+            if (email === 'sebastian@gmail.com' && password === 'sebastiananimero93964') {
+                alert('Inicio de sesión exitoso');
+                document.getElementById('adminLogin').style.display = 'none';
+                document.getElementById('adminUpload').style.display = 'block';
+            } else {
+                alert('Credenciales incorrectas');
+            }
+        });
+
+        // Manejo de Carga de Productos y Documentos
+        document.getElementById('productUploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('productName').value;
+            const brand = document.getElementById('productBrand').value;
+            const price = document.getElementById('productPrice').value;
+            const documentFile = document.getElementById('documentUpload').files[0];
+
+            if (documentFile) {
+                alert(`Producto o documento cargado exitosamente:\nNombre: ${name}\nMarca: ${brand}\nPrecio: ${price}\nDocumento: ${documentFile.name}`);
+            } else {
+                alert(`Producto cargado exitosamente:\nNombre: ${name}\nMarca: ${brand}\nPrecio: ${price}`);
+            }
+
+            // Limpiar el formulario
+            document.getElementById('productUploadForm').reset();
+        });
+    </script>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Élite Parfum</h3>
+                <p>Tu destino para fragancias de lujo y exclusividad.</p>
+                <div class="social-icons">
+                    <div class="social-icon">📘</div>
+                    <div class="social-icon">📷</div>
+                    <div class="social-icon">🐦</div>
+                    <div class="social-icon">💼</div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <a href="#inicio">Inicio</a>
+                <a href="categorias.html" target="_blank">Productos</a>
+                <a href="#ofertas">Ofertas</a>
+                <a href="#nosotros">Nosotros</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Atención al Cliente</h3>
+                <a href="#contacto">Contacto</a>
+                <a href="#">Envíos y Devoluciones</a>
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Política de Privacidad</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Información</h3>
+                <p>📧 info@eliteparfum.com</p>
+                <p>📞 +57 300 123 4567</p>
+                <p>📍 Ibagué, Tolima, Colombia</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 Élite Parfum. Todos los derechos reservados. Diseñado con elegancia.</p>
+        </div>
+    </footer>
+
+    <!-- ========== MODAL CARRITO ========== -->
+    <div class="cart-modal" id="cartModal" onclick="closeCartOnOutsideClick(event)">
+        <div class="cart-content" onclick="event.stopPropagation()">
+            <div class="cart-header">
+                <h2>Mi Carrito</h2>
+                <span class="close-cart" onclick="toggleCart()">×</span>
+            </div>
+            
+            <div class="cart-items" id="cartItems">
+                <!-- Los items se agregarán dinámicamente -->
+            </div>
+            
+            <div class="cart-total">
+                <div class="cart-total-row">
+                    <span class="cart-total-label">Total:</span>
+                    <span class="cart-total-value" id="cartTotal">$0</span>
+                </div>
+            </div>
+            
+            <button class="btn-checkout" onclick="handleCheckout()">Proceder al Pago</button>
+        </div>
+    </div>
+
+    <!-- ========== MODAL LOGIN / REGISTRO ========== -->
+    <div class="login-modal" id="loginModal" onclick="closeLoginOnOutsideClick(event)">
+        <div class="login-content" onclick="event.stopPropagation()">
+            <span class="close-login" onclick="toggleLogin()">×</span>
+            
+            <!-- Formulario de Login con opción de rol -->
+            <div class="login-form-container" id="loginFormContainer">
+                <h2 class="login-title">Iniciar Sesión</h2>
+                <p class="login-subtitle">Selecciona tu rol e inicia sesión</p>
+
+                <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">Correo Electrónico</label>
+                        <input type="email" id="loginEmail" required placeholder="tu@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">Contraseña</label>
+                        <input type="password" id="loginPassword" required placeholder="••••••••">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userRole">Selecciona tu rol</label>
+                        <select id="userRole" required>
+                            <option value="">Selecciona una opción</option>
+                            <option value="cliente">Cliente</option>
+                            <option value="administrador">Administrador</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-auth">Iniciar Sesión</button>
+                </form>
+            </div>
+
+            <script>
+                function handleLogin(event) {
+                    event.preventDefault();
+
+                    const email = document.getElementById('loginEmail').value;
+                    const password = document.getElementById('loginPassword').value;
+                    const role = document.getElementById('userRole').value;
+
+                    if (role === 'administrador') {
+                        if (email === 'sebastianQgmail.com' && password === 'sebastiananimero93964') {
+                            alert('Inicio de sesión exitoso como Administrador');
+                            document.getElementById('loginFormContainer').style.display = 'none';
+                            document.getElementById('adminSection').style.display = 'block';
+                        } else {
+                            alert('Credenciales incorrectas para Administrador');
+                        }
+                    } else if (role === 'cliente') {
+                        // Simulación de inicio de sesión para clientes
+                        alert('Inicio de sesión exitoso como Cliente');
+                        document.getElementById('loginFormContainer').style.display = 'none';
+                        document.getElementById('userProfileContainer').style.display = 'block';
+                    } else {
+                        alert('Por favor selecciona un rol válido');
+                    }
+                }
+            </script>
+            
+            <!-- Perfil de Usuario (cuando está logueado) -->
+            <div class="user-profile-container" id="userProfileContainer" style="display: none;">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <span id="userAvatar">👤</span>
+                    </div>
+                    <h2 id="userName">Usuario</h2>
+                    <p id="userEmail">email@example.com</p>
+                </div>
+                
+                <div class="profile-menu">
+                    <a href="#" class="profile-menu-item" onclick="event.preventDefault()">
+                        <span>📦</span> Mis Pedidos
+                    </a>
+                    <a href="#" class="profile-menu-item" onclick="event.preventDefault()">
+                        <span>❤️</span> Favoritos
+                    </a>
+                    <a href="#" class="profile-menu-item" onclick="event.preventDefault()">
+                        <span>📍</span> Direcciones
+                    </a>
+                    <a href="#" class="profile-menu-item" onclick="event.preventDefault()">
+                        <span>⚙️</span> Configuración
+                    </a>
+                </div>
+                
+                <button class="btn-logout" onclick="handleLogout()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- ========== JAVASCRIPT ========== -->
+    <script src="script.js"></script>
+</body>
+</html>
