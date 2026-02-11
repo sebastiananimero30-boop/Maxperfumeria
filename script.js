@@ -1,4 +1,4 @@
-// ========== DATOS DE PRODUCTOS ==========
+ // ========== DATOS DE PRODUCTOS ==========
 const products = [
     {
         id: 1,
@@ -550,5 +550,30 @@ document.addEventListener('keydown', (e) => {
         if (loginModal.classList.contains('active')) {
             toggleLogin();
         }
+    }
+});
+
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const role = document.getElementById('userRole').value;
+
+    if (role === 'administrador') {
+        if (email === 'sebastianQgmail.com' && password === 'sebastiananimero93964') {
+            alert('Inicio de sesión exitoso como Administrador');
+            document.getElementById('loginFormContainer').style.display = 'none';
+            document.getElementById('adminSection').style.display = 'block';
+        } else {
+            alert('Credenciales incorrectas para Administrador');
+        }
+    } else if (role === 'cliente') {
+        // Simulación de inicio de sesión para clientes
+        alert('Inicio de sesión exitoso como Cliente');
+        document.getElementById('loginFormContainer').style.display = 'none';
+        document.getElementById('userProfileContainer').style.display = 'block';
+    } else {
+        alert('Por favor selecciona un rol válido');
     }
 });
